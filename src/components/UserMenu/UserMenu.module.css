@@ -1,0 +1,19 @@
+.userBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #2a324b;
+}
+
+.userBox button {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.userBox button:hover {
+  background-color: #c82333;
+}

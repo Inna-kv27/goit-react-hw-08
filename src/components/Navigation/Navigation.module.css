@@ -1,0 +1,23 @@
+.authNav {
+  display: flex;
+  gap: 20px;
+}
+
+.authNav button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.authNav button:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 576px) {
+  .authNav button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
