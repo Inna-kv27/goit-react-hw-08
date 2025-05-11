@@ -162,4 +162,5 @@
   font-size: 1rem;
   box-sizing: border-box;
   margin-top: 5px; /* Додано відступ між label та input */
+  margin-right: 10px; /* Додано відступ справа від input */
 }
