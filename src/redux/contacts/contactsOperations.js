@@ -4,23 +4,10 @@ import axios from 'axios';
 axios.defaults.baseURL =
   'https://connections-api.goit.global';
 
-const setAuthHeader = (token) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-const clearAuthHeader = () => {
-  axios.defaults.headers.common.Authorization = '';
-};
-
-export const fetchContacts = createAsyncThunk(
-  'contacts/fetchAll',
-  async (_, { rejectWithValue, getState }) => {
-    const state = getState();
-    const token = state.auth.token;
-    if (!token) {
-      return rejectWithValue('No user token');
-    }
-    setAuthHeader(token);
+// Асинхронний запит для отримання контактів
+export const getContacts = createAsyncThunk(
+  'contacts/getContacts',
+  async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get('/contacts');
       return data;
@@ -30,15 +17,10 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
+// Асинхронний запит для додавання контакту
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (contact, { rejectWithValue, getState }) => {
-    const state = getState();
-    const token = state.auth.token;
-    if (!token) {
-      return rejectWithValue('No user token');
-    }
-    setAuthHeader(token);
+  async (contact, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         '/contacts',
@@ -51,18 +33,29 @@ export const addContact = createAsyncThunk(
   }
 );
 
+// Асинхронний запит для видалення контакту
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (contactId, { rejectWithValue, getState }) => {
-    const state = getState();
-    const token = state.auth.token;
-    if (!token) {
-      return rejectWithValue('No user token');
-    }
-    setAuthHeader(token);
+  async (contactId, { rejectWithValue }) => {
     try {
       await axios.delete(`/contacts/${contactId}`);
       return contactId;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Асинхронний запит для оновлення контакту
+export const updateContact = createAsyncThunk(
+  'contacts/updateContact',
+  async ({ id, updatedContact }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.patch(
+        `/contacts/${id}`,
+        updatedContact
+      );
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }

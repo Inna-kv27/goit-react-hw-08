@@ -6,7 +6,7 @@ import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { RestrictedRoute } from './components/RestrictedRoute/RestrictedRoute';
 import { refreshUser } from './redux/auth/authOperations';
 import { useAuth } from './hooks/useAuth';
-import { fetchContacts } from './redux/contacts/contactsOperations';
+import { getContacts } from './redux/contacts/contactsOperations';
 
 const HomePage = React.lazy(() =>
   import('./pages/HomePage/HomePage')
@@ -31,7 +31,7 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(fetchContacts());
+      dispatch(getContacts());
     }
   }, [dispatch, isLoggedIn]);
 
