@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import {
   selectLoading,
   selectError,
-} from '../../redux/contacts/contactsSelectors';
+} from '../../redux/contacts/selectors';
 import styles from './ContactsPage.module.css';
 
 const ContactsPage = () => {

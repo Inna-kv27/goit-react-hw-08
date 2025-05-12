@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { register } from '../../redux/auth/authOperations';
+import { register } from '../../redux/auth/operations';
 import styles from './RegistrationForm.module.css';
 
 const RegistrationForm = () => {
