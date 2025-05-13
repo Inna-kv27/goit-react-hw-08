@@ -1,63 +1,68 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL =
-  'https://connections-api.goit.global';
-
-// Асинхронний запит для отримання контактів
-export const getContacts = createAsyncThunk(
-  'contacts/getContacts',
+const fetchContacts = createAsyncThunk(
+  'contacts/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get('/contacts');
-      return data;
+      const response = await axios.get(
+        'https://connections-api.herokuapp.com/contacts'
+      );
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
 
-// Асинхронний запит для додавання контакту
-export const addContact = createAsyncThunk(
+const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contact, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(
-        '/contacts',
+      const response = await axios.post(
+        'https://connections-api.herokuapp.com/contacts',
         contact
       );
-      return data;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
 
-// Асинхронний запит для видалення контакту
-export const deleteContact = createAsyncThunk(
+const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, { rejectWithValue }) => {
     try {
-      await axios.delete(`/contacts/${contactId}`);
-      return contactId;
+      const response = await axios.delete(
+        `https://connections-api.herokuapp.com/contacts/${contactId}`
+      );
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
 
-// Асинхронний запит для оновлення контакту
-export const updateContact = createAsyncThunk(
+const updateContact = createAsyncThunk(
   'contacts/updateContact',
   async ({ id, updatedContact }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.patch(
-        `/contacts/${id}`,
+      const response = await axios.patch(
+        `https://connections-api.herokuapp.com/contacts/${id}`,
         updatedContact
       );
-      return data;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
+const operations = {
+  fetchContacts,
+  addContact,
+  deleteContact,
+  updateContact,
+};
+export default operations;

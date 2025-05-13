@@ -1,84 +1,72 @@
 import { createSlice } from '@reduxjs/toolkit';
+// Виправлений шлях імпорту з урахуванням перейменування файлу
+import { logOut } from '../auth/slice.js';
 import {
-  getContacts,
+  fetchContacts,
   addContact,
   deleteContact,
-  updateContact,
-} from './operations.js';
+} from '../contacts/operations.js'; // Import operations
+
+const initialState = {
+  items: [],
+  isLoading: false,
+  error: null,
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: {
-    items: [],
-    loading: false,
-    error: null,
-  },
-  reducers: {
-    // Синхронні редюсери (за потреби)
-  },
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getContacts.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addCase(fetchContacts.pending, (state) => {
+        state.isLoading = true;
       })
-      .addCase(getContacts.fulfilled, (state, action) => {
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
         state.items = action.payload;
-        state.loading = false;
-        state.error = null;
       })
-      .addCase(getContacts.rejected, (state, action) => {
-        state.loading = false;
+      .addCase(fetchContacts.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       })
       .addCase(addContact.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.isLoading = true;
       })
       .addCase(addContact.fulfilled, (state, action) => {
-        state.items.push(action.payload);
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
+        state.items.push(action.payload);
       })
       .addCase(addContact.rejected, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.error = action.payload;
       })
       .addCase(deleteContact.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.isLoading = true;
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
-        state.items = state.items.filter(
-          (item) => item.id !== action.payload
-        );
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
-      })
-      .addCase(deleteContact.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(updateContact.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateContact.fulfilled, (state, action) => {
-        const updatedContact = action.payload;
         const index = state.items.findIndex(
-          (item) => item.id === updatedContact.id
+          (contact) => contact.id === action.payload.id
         );
         if (index !== -1) {
-          state.items[index] = updatedContact;
+          state.items.splice(index, 1);
         }
-        state.loading = false;
-        state.error = null;
       })
-      .addCase(updateContact.rejected, (state, action) => {
-        state.loading = false;
+      .addCase(deleteContact.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(logOut, (state) => {
+        // Додано обробник для logOut
+        state.items = [];
+        state.error = null;
+        state.isLoading = false;
       });
   },
 });
 
-export default contactsSlice.reducer;
+export const contactsReducer = contactsSlice.reducer;
