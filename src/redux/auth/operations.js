@@ -62,18 +62,18 @@ export const refreshUser = createAsyncThunk(
     const state = getState();
     const persistedToken = state.auth.token;
 
-    if (persistedToken === null) {
-      return rejectWithValue();
+    if (persistedToken) {
+      token.set(persistedToken);
+      try {
+        const { data } = await axios.get(
+          'https://connections-api.goit.global/users/current'
+        );
+        return data;
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
     }
 
-    token.set(persistedToken);
-    try {
-      const { data } = await axios.get(
-        'https://connections-api.goit.global/users/current'
-      );
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
+    return rejectWithValue();
   }
 );
