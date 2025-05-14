@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
+  "build": {
+    "commands": "npm run build",
+    "outputDirectory": "dist",
+    "env": {
+      "NODE_ENV": "production"
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ]
+  },
+  "routes": [{ "src": "/(.*)", "dest": "/" }]
 }
