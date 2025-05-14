@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom'; // Outlet тут не потрібен
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 export const PrivateRoute = ({
@@ -9,7 +9,9 @@ export const PrivateRoute = ({
   const { isLoggedIn, isRefreshing } = useAuth();
   const shouldRedirect = !isLoggedIn && !isRefreshing;
 
-  return shouldRedirect ? (
+  const shouldRedirectCorrected = !isLoggedIn;
+
+  return shouldRedirectCorrected ? (
     <Navigate to={redirectTo} />
   ) : (
     children

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-const fetchContacts = createAsyncThunk(
+export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        'https://connections-api.herokuapp.com/contacts'
+        'https://connections-api.goit.global/contacts'
       );
       return response.data;
     } catch (error) {
@@ -15,12 +15,12 @@ const fetchContacts = createAsyncThunk(
   }
 );
 
-const addContact = createAsyncThunk(
+export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contact, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        'https://connections-api.herokuapp.com/contacts',
+        'https://connections-api.goit.global/contacts',
         contact
       );
       return response.data;
@@ -30,12 +30,12 @@ const addContact = createAsyncThunk(
   }
 );
 
-const deleteContact = createAsyncThunk(
+export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `https://connections-api.herokuapp.com/contacts/${contactId}`
+        `https://connections-api.goit.global/contacts/${contactId}`
       );
       return response.data;
     } catch (error) {
@@ -44,12 +44,14 @@ const deleteContact = createAsyncThunk(
   }
 );
 
-const updateContact = createAsyncThunk(
+// Додаткова необов'язкова операція для оновлення контакту
+// Якщо вам знадобиться ця функціональність
+export const updateContact = createAsyncThunk(
   'contacts/updateContact',
   async ({ id, updatedContact }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
-        `https://connections-api.herokuapp.com/contacts/${id}`,
+        `https://connections-api.goit.global/contacts/${id}`,
         updatedContact
       );
       return response.data;
@@ -59,10 +61,11 @@ const updateContact = createAsyncThunk(
   }
 );
 
-const operations = {
-  fetchContacts,
-  addContact,
-  deleteContact,
-  updateContact,
-};
-export default operations;
+//
+// const operations = {
+//   fetchContacts,
+//   addContact,
+//   deleteContact,
+//   updateContact,
+// };
+// export default operations;

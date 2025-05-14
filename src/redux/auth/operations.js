@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL =
-  'https://connections-api.goit.global';
-
 const token = {
   set(token) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -18,7 +15,7 @@ export const register = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        '/users/signup',
+        'https://connections-api.goit.global/users/signup',
         credentials
       );
       token.set(data.token);
@@ -34,7 +31,7 @@ export const logIn = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        '/users/login',
+        'https://connections-api.goit.global/users/login',
         credentials
       );
       token.set(data.token);
@@ -49,7 +46,9 @@ export const logOut = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post('/users/logout');
+      await axios.post(
+        'https://connections-api.goit.global/users/logout'
+      );
       token.unset();
     } catch (error) {
       return rejectWithValue(error.message);
@@ -69,7 +68,9 @@ export const refreshUser = createAsyncThunk(
 
     token.set(persistedToken);
     try {
-      const { data } = await axios.get('/users/current');
+      const { data } = await axios.get(
+        'https://connections-api.goit.global/users/current'
+      );
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-// Виправлений шлях імпорту з урахуванням перейменування файлу
-import { logOut } from '../auth/slice.js';
+
+import { logOut } from '../auth/operations.js';
 import {
   fetchContacts,
   addContact,
   deleteContact,
-} from '../contacts/operations.js'; // Import operations
+} from './operations.js';
 
 const initialState = {
   items: [],
@@ -60,8 +60,7 @@ const contactsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      .addCase(logOut, (state) => {
-        // Додано обробник для logOut
+      .addCase(logOut.fulfilled, (state) => {
         state.items = [];
         state.error = null;
         state.isLoading = false;

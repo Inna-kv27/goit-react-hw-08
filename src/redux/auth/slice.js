@@ -4,7 +4,7 @@ import {
   logIn,
   logOut,
   refreshUser,
-} from '../contacts/operations.js';
+} from './operations.js';
 
 const initialState = {
   user: { name: null, email: null },
